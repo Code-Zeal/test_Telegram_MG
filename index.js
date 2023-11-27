@@ -32,7 +32,11 @@ bot.onText(/\/start$/, (msg) => {
       ],
     }),
   };
-  bot.sendMessage(chatId, "¡Bienvenido al bot! ¿Cómo puedo ayudarte hoy?");
+  bot.sendMessage(
+    chatId,
+    "¡Bienvenido al bot! ¿Cómo puedo ayudarte hoy?",
+    opciones
+  );
 });
 bot.onText(/\/comando$/, (msg) => {
   const chatId = msg.chat.id;
