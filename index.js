@@ -22,6 +22,18 @@ bot.on("message", (msg) => {
     "Mensaje: '" + message + "' recibido correctamente :)"
   );
 });
+bot.onText(/\/start$/, (msg) => {
+  const chatId = msg.chat.id;
+  const opciones = {
+    reply_markup: JSON.stringify({
+      inline_keyboard: [
+        [{ text: "comando", callback_data: "/comando" }],
+        [{ text: "comando2", callback_data: "/comando2" }],
+      ],
+    }),
+  };
+  bot.sendMessage(chatId, "¡Bienvenido al bot! ¿Cómo puedo ayudarte hoy?");
+});
 bot.onText(/\/comando$/, (msg) => {
   const chatId = msg.chat.id;
 
@@ -49,7 +61,23 @@ bot.onText(/\/comando2$/, (msg) => {
 bot.on("callback_query", (callbackQuery) => {
   const messageId = callbackQuery.message.message_id;
   const chatId = callbackQuery.message.chat.id;
-  if (callbackQuery.data === "1") {
+  if (callbackQuery.data === "/comando") {
+    bot.sendMessage(chatId, "Comando ejecutado correctamente!");
+  } else if (callbackQuery.data === "/comando2") {
+    const opciones = {
+      reply_markup: JSON.stringify({
+        inline_keyboard: [
+          [{ text: "comando", callback_data: "/comando" }],
+          [{ text: "🟢comando2🟢", callback_data: "/comando2" }],
+        ],
+      }),
+    };
+    bot.editMessageText("¡Bienvenido al bot! ¿Cómo puedo ayudarte hoy?", {
+      chat_id: chatId,
+      message_id: messageId,
+      reply_markup: opciones.reply_markup,
+    });
+  } else if (callbackQuery.data === "1") {
     bot.sendMessage(chatId, "Opción 1 seleccionada correctamente");
   } else {
     const opciones = {
